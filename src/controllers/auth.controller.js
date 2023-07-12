@@ -3,7 +3,7 @@ import bcrypt from "bcrypt"
 import { v4 as uuid } from "uuid"
 
 export async function signUp(req, res) {
-    const { name, email, password } = req.body
+    const { name, email, password, image } = req.body
 
     try {
         const user = await db.collection("users").findOne({ email })
@@ -11,8 +11,7 @@ export async function signUp(req, res) {
 
         const hash = bcrypt.hashSync(password, 10)
 
-
-        await db.collection("users").insertOne({ name, email, password: hash })
+        await db.collection("users").insertOne({ name, email, password: hash, image: image})
         res.sendStatus(201)
 
     } catch (err) {
