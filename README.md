@@ -16,9 +16,7 @@
 - [x] Obter o token de sessão a partir do objeto `res.locals.session`.
 - [x] Remover o token de sessão do banco de dados.
 - [x] Retornar um status `200` em caso de sucesso.
-- [x] Criar um modelo de dados para representar o perfil do usuário com propriedades como nome, email, senha e imagem.
-- [x] Implementar a lógica de cadastro de um novo usuário no banco de dados, incluindo a verificação se o email já está cadastrado.
-- [x] Implementar a lógica de autenticação do usuário, comparando a senha fornecida com o hash armazenado no banco de dados.
+- [ ] Criar um modelo de dados para representar o perfil do usuário com propriedades como nome, email, senha e imagem.
 - [ ] Criar um modelo de dados para representar o carrinho de compras com propriedades como itens, quantidades e total.
 - [ ] Implementar a lógica para adicionar um item ao carrinho de compras, incluindo verificação de disponibilidade e atualização das quantidades.
 - [ ] Implementar a lógica para remover um item do carrinho de compras.
