@@ -10,8 +10,19 @@
 - [x] Comparar a senha fornecida com o hash armazenado no banco de dados.
 - [x] Gerar um token de sessão único para o usuário autenticado.
 - [x] Armazenar o token de sessão no banco de dados.
+- [x] Implementar a lógica de encerramento da sessão do usuário, removendo o token de sessão do banco de dados.
 - [x] Retornar o token de sessão e o nome do usuário autenticado.
 - [x] Criar uma rota para o endpoint `/logout`, que recebe uma requisição `POST` para encerrar a sessão do usuário.
 - [x] Obter o token de sessão a partir do objeto `res.locals.session`.
 - [x] Remover o token de sessão do banco de dados.
 - [x] Retornar um status `200` em caso de sucesso.
+- [x] Criar um modelo de dados para representar o perfil do usuário com propriedades como nome, email, senha e imagem.
+- [x] Implementar a lógica de cadastro de um novo usuário no banco de dados, incluindo a verificação se o email já está cadastrado.
+- [x] Implementar a lógica de autenticação do usuário, comparando a senha fornecida com o hash armazenado no banco de dados.
+- [ ] Criar um modelo de dados para representar o carrinho de compras com propriedades como itens, quantidades e total.
+- [ ] Implementar a lógica para adicionar um item ao carrinho de compras, incluindo verificação de disponibilidade e atualização das quantidades.
+- [ ] Implementar a lógica para remover um item do carrinho de compras.
+- [ ] Implementar a lógica para calcular o total do carrinho de compras com base nos itens e quantidades.
+- [ ] Associar o carrinho de compras ao usuário autenticado, permitindo que cada usuário tenha seu próprio carrinho.
+- [ ] Persistir o carrinho de compras no banco de dados, para que os itens sejam mantidos entre sessões.
+- [ ] Implementar a lógica para visualizar o carrinho de compras, exibindo os itens, quantidades e total.
