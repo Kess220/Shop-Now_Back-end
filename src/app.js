@@ -1,31 +1,11 @@
-import express from "express";
-import cors from "cors";
-import bodyParser from "body-parser";
-import dotenv from "dotenv";
+import express from "express"
+import cors from "cors"
+import router from "./routes/index.routes.js"
 
-import { connectDB } from "./models/db.js";
-import cadastroRoutes from "./routes/cadastroRoutes.js";
-import loginRoutes from "./routes/loginRoutes.js";
+const app = express()
+app.use(cors())
+app.use(express.json())
+app.use(router)
 
-const app = express();
-dotenv.config();
-
-app.use(cors());
-app.use(bodyParser.json());
-
-// Registrar as rotas
-app.use("/cadastro", cadastroRoutes);
-app.use("/", loginRoutes);
-
-const port = process.env.PORT;
-
-connectDB()
-  .then(() => {
-    app.listen(port, () => {
-      console.log(`Servidor está rodando na porta ${port}`);
-    });
-  })
-  .catch((error) => {
-    console.log(error.message);
-    process.exit(1);
-  });
+const PORT = 5000
+app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`))
