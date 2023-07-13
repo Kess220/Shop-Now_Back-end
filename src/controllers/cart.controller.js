@@ -1,18 +1,36 @@
-import { db } from "../database/db.connection.js";
+let cartItems = [];
 
-export async function addToCart(req, res) {
-  const itemId = req.body.itemId; 
+export async function addItem(req, res) {
+    const newItem = req.body;
+    cartItems.push(newItem);
+    res.status(201).json(newItem);
+};
 
-  try {
-      const userId = res.locals.session.userId; 
+export async function removeItem(req, res) {
+    const itemId = req.params.id;
+    cartItems = cartItems.filter((item) => item.id !== itemId);
+    res.sendStatus(204);
+};
 
-      await db.collection("users").updateOne(
-          { _id: userId },
-          { $push: { cart: itemId } }
-      );
+export async function updateItemQuantity(req, res) {
+    const itemId = req.params.id;
+    const newQuantity = req.body.quantity;
 
-      res.sendStatus(200);
-  } catch (err) {
-      res.status(500).send(err.message);
-  }
-}
+    cartItems = cartItems.map((item) => {
+        if (item.id === itemId) {
+            return { ...item, quantity: newQuantity };
+        }
+        return item;
+    });
+
+    res.sendStatus(204);
+};
+
+export async function getCartItems(req, res) {
+    res.json(cartItems);
+};
+
+export async function clearCart(req, res) {
+    cartItems = [];
+    res.sendStatus(204);
+};
