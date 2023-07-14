@@ -1,7 +1,7 @@
 import { Router } from "express"
-import { schemaValidation } from "../middlewares/schemaValidation";
-import { cartItemSchema } from "../schemas/cartSchemas";
-import { addItem, clearCart, getCartItems, removeItem, updateItemQuantity } from "../controllers/cart.controller";
+import { schemaValidation } from "../middlewares/schemaValidation.js";
+import { cartItemSchema } from "../schemas/cartSchemas.js";
+import { addItem, clearCart, getCartItems, removeItem, updateItemQuantity } from "../controllers/cart.controller.js";
 
 const cartRouter = Router();
 
