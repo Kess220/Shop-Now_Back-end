@@ -1,14 +1,20 @@
 import { Router } from "express"
 import { schemaValidation } from "../middlewares/schemaValidation.js";
 import { cartItemSchema } from "../schemas/cartSchemas.js";
-import { addItem, clearCart, getCartItems, removeItem, updateItemQuantity } from "../controllers/cart.controller.js";
+import { addItem, clearCart, getCartItems, removeItem, increaseQuantity, decreaseQuantity} from "../controllers/cart.controller.js";
 
 const cartRouter = Router();
 
-cartRouter.post('/items', schemaValidation(cartItemSchema), addItem);
-cartRouter.delete('/items/:id', removeItem);
-cartRouter.put('/items/:id', schemaValidation(cartItemSchema), updateItemQuantity);
-cartRouter.get('/items', getCartItems);
-cartRouter.delete('/items', clearCart);
+cartRouter.post('/itens', schemaValidation(cartItemSchema), addItem);
+cartRouter.delete('/itens/:id', removeItem);
+cartRouter.get('/itens', getCartItems);
+cartRouter.delete('/itens', clearCart);
+
+
+
+
+cartRouter.put('/itens/:id/aumentar-quantidade', increaseQuantity);
+cartRouter.put('/itens/:id/diminuir-quantidade', decreaseQuantity);
+
 
 export default cartRouter
