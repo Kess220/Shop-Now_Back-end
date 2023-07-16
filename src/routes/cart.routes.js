@@ -11,8 +11,6 @@ cartRouter.get('/itens', getCartItems);
 cartRouter.delete('/itens', clearCart);
 
 
-
-
 cartRouter.put('/itens/:id/aumentar-quantidade', increaseQuantity);
 cartRouter.put('/itens/:id/diminuir-quantidade', decreaseQuantity);
 
