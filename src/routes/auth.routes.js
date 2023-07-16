@@ -13,6 +13,4 @@ authRouter.post("/logout", authValidation, logout)
 
 
 
-
-
 export default authRouter
