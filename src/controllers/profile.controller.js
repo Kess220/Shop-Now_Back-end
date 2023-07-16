@@ -10,7 +10,7 @@ export async function getProfile(req, res) {
     const user = await db.collection("users").findOne({ _id: new ObjectId(userId) });
     if (!user) return res.status(404).send("Usuário não encontrado");
 
-    res.send({ username: user.name, email: user.email });
+    res.send({ username: user.name, email: user.email, image: user.image});
 
   } catch (err) {
     res.status(500).send(err.message);
