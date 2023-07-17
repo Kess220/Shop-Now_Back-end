@@ -16,17 +16,16 @@ export async function addItem(req, res) {
 
   try {
     const item = {
-      id_usuario: id_usuario,
-      id_item: id_item,
+      id_usuario,
+      id_item,
       modelo,
       marca,
       descricao,
       preco,
-      imgs: imgs,
+      imgs: Array.isArray(imgs) ? imgs : [],
       quantidade,
     };
 
-    // Validar o item do carrinho com o esquema definido
     const { error } = cartItemSchema.validate(item);
     if (error) {
       return res.status(400).send(error.details[0].message);
@@ -96,7 +95,7 @@ export async function removeItem(req, res) {
 }
 
 export async function getCartItems(req, res) {
-  const userId = req.body.userId;
+  const userId = req.params.userId;
 
   try {
     const cartItems = await db
