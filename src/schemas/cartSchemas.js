@@ -7,5 +7,6 @@ export const cartItemSchema = Joi.object({
     marca: Joi.string().required(),
     descricao: Joi.string().required(),
     preco: Joi.number().min(0).required(),
+    img: Joi.string().required(),
     quantidade: Joi.number().min(1).required()
   });
