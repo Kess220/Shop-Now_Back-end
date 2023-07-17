@@ -14,7 +14,7 @@ const cartRouter = Router();
 
 cartRouter.post("/itens", schemaValidation(cartItemSchema), addItem);
 cartRouter.delete("/itens/:id", removeItem);
-cartRouter.get("/itens/:id", getCartItems);
+cartRouter.get("/itens/:userId", getCartItems);
 cartRouter.delete("/itens", clearCart);
 
 cartRouter.put("/itens/:id/aumentar-quantidade", increaseQuantity);
