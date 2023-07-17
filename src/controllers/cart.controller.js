@@ -79,14 +79,17 @@ export async function decreaseQuantity(req, res) {
 }
 
 export async function removeItem(req, res) {
-  let itemId = req.params.id;
-  itemId = new ObjectId(itemId);
+  const itemId = req.params.itemId;
   const userId = req.body.userId;
 
   try {
-    await db
+    const result = await db
       .collection("carrinho")
-      .deleteOne({ _id: itemId, id_usuario: userId });
+      .deleteOne({ _id: new ObjectId(itemId), id_usuario: userId });
+
+    if (result.deletedCount === 0) {
+      return res.status(404).send("Item não encontrado");
+    }
 
     res.sendStatus(204);
   } catch (err) {
@@ -110,7 +113,7 @@ export async function getCartItems(req, res) {
 }
 
 export async function clearCart(req, res) {
-  const userId = req.body.userId;
+  const userId = req.params.userId;
 
   try {
     const result = await db

@@ -13,9 +13,10 @@ import {
 const cartRouter = Router();
 
 cartRouter.post("/itens", schemaValidation(cartItemSchema), addItem);
+cartRouter.delete("/itens/:itemId", removeItem);
 cartRouter.delete("/itens/:id", removeItem);
 cartRouter.get("/itens/:userId", getCartItems);
-cartRouter.delete("/itens", clearCart);
+cartRouter.delete("/itens/usuario/:userId", clearCart);
 
 cartRouter.put("/itens/:id/aumentar-quantidade", increaseQuantity);
 cartRouter.put("/itens/:id/diminuir-quantidade", decreaseQuantity);
