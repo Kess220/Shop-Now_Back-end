@@ -1,6 +1,7 @@
 import { db } from "../database/db.connection.js";
 import { ObjectId } from "mongodb";
 import { cartItemSchema } from "../schemas/cartSchemas.js";
+import { v4 as uuidv4 } from "uuid";
 
 export async function addItem(req, res) {
   const {
@@ -41,15 +42,14 @@ export async function addItem(req, res) {
 }
 
 export async function increaseQuantity(req, res) {
-  let itemId = req.params.id;
-  itemId = new ObjectId(itemId);
+  const itemId = req.params.itemId;
   const userId = req.body.userId;
 
   try {
     await db
       .collection("carrinho")
       .updateOne(
-        { _id: itemId, id_usuario: userId },
+        { id_usuario: userId, id_item: itemId },
         { $inc: { quantidade: 1 } }
       );
 
@@ -60,15 +60,14 @@ export async function increaseQuantity(req, res) {
 }
 
 export async function decreaseQuantity(req, res) {
-  let itemId = req.params.id;
-  itemId = new ObjectId(itemId);
+  const itemId = req.params.itemId;
   const userId = req.body.userId;
 
   try {
     await db
       .collection("carrinho")
       .updateOne(
-        { _id: itemId, id_usuario: userId },
+        { id_usuario: userId, id_item: itemId },
         { $inc: { quantidade: -1 } }
       );
 
@@ -79,13 +78,12 @@ export async function decreaseQuantity(req, res) {
 }
 
 export async function removeItem(req, res) {
-  const itemId = req.params.itemId;
-  const userId = req.body.userId;
+  const { userId, itemId } = req.body;
 
   try {
     const result = await db
       .collection("carrinho")
-      .deleteOne({ _id: new ObjectId(itemId), id_usuario: userId });
+      .deleteOne({ id_usuario: userId, id_item: itemId });
 
     if (result.deletedCount === 0) {
       return res.status(404).send("Item não encontrado");
@@ -113,7 +111,7 @@ export async function getCartItems(req, res) {
 }
 
 export async function clearCart(req, res) {
-  const userId = req.params.userId;
+  const userId = req.body.userId;
 
   try {
     const result = await db
