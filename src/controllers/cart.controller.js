@@ -1,20 +1,37 @@
 import { db } from "../database/db.connection.js";
 import { ObjectId } from "mongodb";
+import { cartItemSchema } from "../schemas/cartSchemas.js";
 
 export async function addItem(req, res) {
-  const { modelo, marca, preco, imgs, itemId, quantidade } = req.body;
-  const userId = res.locals.session.userId;
+  const {
+    modelo,
+    marca,
+    preco,
+    imgs,
+    id_item,
+    quantidade,
+    id_usuario,
+    descricao,
+  } = req.body;
 
   try {
     const item = {
-      _id: itemId,
-      userId,
+      id_usuario: id_usuario,
+      id_item: id_item,
       modelo,
       marca,
+      descricao,
       preco,
-      imgs,
+      imgs: imgs,
       quantidade,
     };
+
+    // Validar o item do carrinho com o esquema definido
+    const { error } = cartItemSchema.validate(item);
+    if (error) {
+      return res.status(400).send(error.details[0].message);
+    }
+
     console.log(item);
     await db.collection("carrinho").insertOne(item);
 
@@ -27,12 +44,15 @@ export async function addItem(req, res) {
 export async function increaseQuantity(req, res) {
   let itemId = req.params.id;
   itemId = new ObjectId(itemId);
-  const userId = res.locals.session.userId;
+  const userId = req.body.userId;
 
   try {
     await db
       .collection("carrinho")
-      .updateOne({ _id: itemId, userId }, { $inc: { quantidade: 1 } });
+      .updateOne(
+        { _id: itemId, id_usuario: userId },
+        { $inc: { quantidade: 1 } }
+      );
 
     res.sendStatus(204);
   } catch (err) {
@@ -43,12 +63,15 @@ export async function increaseQuantity(req, res) {
 export async function decreaseQuantity(req, res) {
   let itemId = req.params.id;
   itemId = new ObjectId(itemId);
-  const userId = res.locals.session.userId;
+  const userId = req.body.userId;
 
   try {
     await db
       .collection("carrinho")
-      .updateOne({ _id: itemId, userId }, { $inc: { quantidade: -1 } });
+      .updateOne(
+        { _id: itemId, id_usuario: userId },
+        { $inc: { quantidade: -1 } }
+      );
 
     res.sendStatus(204);
   } catch (err) {
@@ -59,10 +82,12 @@ export async function decreaseQuantity(req, res) {
 export async function removeItem(req, res) {
   let itemId = req.params.id;
   itemId = new ObjectId(itemId);
-  const userId = res.locals.session.userId;
+  const userId = req.body.userId;
 
   try {
-    await db.collection("carrinho").deleteOne({ _id: itemId, userId });
+    await db
+      .collection("carrinho")
+      .deleteOne({ _id: itemId, id_usuario: userId });
 
     res.sendStatus(204);
   } catch (err) {
@@ -71,12 +96,12 @@ export async function removeItem(req, res) {
 }
 
 export async function getCartItems(req, res) {
-  const userId = res.locals.session.userId;
+  const userId = req.body.userId;
 
   try {
     const cartItems = await db
       .collection("carrinho")
-      .find({ userId })
+      .find({ id_usuario: userId })
       .toArray();
 
     res.json(cartItems);
@@ -86,10 +111,12 @@ export async function getCartItems(req, res) {
 }
 
 export async function clearCart(req, res) {
-  const userId = res.locals.session.userId;
+  const userId = req.body.userId;
 
   try {
-    const result = await db.collection("carrinho").deleteMany({ userId });
+    const result = await db
+      .collection("carrinho")
+      .deleteMany({ id_usuario: userId });
 
     res.sendStatus(204);
   } catch (err) {
