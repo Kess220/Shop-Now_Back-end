@@ -1,6 +1,10 @@
-import { nodemailer } from 'nodemailer';
+import nodemailer from 'nodemailer';
+import { Router } from "express"
 
-app.post('/send-email', async (req, res) => {
+const SendEmail = Router();
+
+
+SendEmail.post('/send-email', async (req, res) => {
   const { cliente, produto, preco, quantidade, total, destinatario } = req.body;
 
   const transporter = nodemailer.createTransport({
@@ -113,3 +117,6 @@ app.post('/send-email', async (req, res) => {
     res.status(500).json({ message: 'Erro ao enviar o e-mail.' });
   }
 });
+
+
+export default SendEmail;
